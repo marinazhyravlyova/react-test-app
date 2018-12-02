@@ -34,4 +34,11 @@ class Tasks extends Component {
     }
 }
 
+Tasks.propTypes = {
+    tasks: PropTypes.array.isRequired,
+    onTaskAdd: PropTypes.func.isRequired,
+    onTaskEdit: PropTypes.func.isRequired,
+    onTaskDelete: PropTypes.func.isRequired,
+};
+
 export default Tasks;

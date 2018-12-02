@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import style from './style';
+import Task from "../component";
 
 class ViewTaskForm extends Component {
     state = {
@@ -58,5 +59,11 @@ class ViewTaskForm extends Component {
         );
     }
 }
+
+ViewTaskForm.propTypes = {
+    task: PropTypes.object.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+};
 
 export default ViewTaskForm;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import style from './style';
 import { FORM_EDIT_MODE } from './index';
+import ViewTaskForm from "../view/component";
 
 export const initialState = {
     title: '',
@@ -63,5 +64,12 @@ class NewTaskForm extends Component {
         );
     }
 }
+
+NewTaskForm.propTypes = {
+    mode: PropTypes.string,
+    task: PropTypes.object,
+    onSave: PropTypes.func.isRequired,
+    onDelete: PropTypes.func,
+};
 
 export default NewTaskForm;
