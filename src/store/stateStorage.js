@@ -16,10 +16,10 @@ export const saveToStorageMiddleware = ({ getState }) => next => action => {
 
 export const loadState = () => {
     try {
-        return LocalStorage.getItem(APP_STATE_KEY);
+        return LocalStorage.getItem(APP_STATE_KEY) || {};
     } catch (error) {
         console.log(error);
     }
 
-    return null;
+    return {};
 };

@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import style from './style';
+import styled from 'styled-components';
 import { component as Task } from './task';
 import { component as EditTaskForm, FORM_NEW_MODE } from './task/edit';
+
+export const TasksForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+`;
+export const TasksList = styled.div`
+    display: grid;
+    grid-template-rows: auto;
+    grid-row-gap: 10px;
+    margin-top: 10px;
+    width: 757px;
+`;
 
 class Tasks extends Component {
     render() {
@@ -14,12 +29,12 @@ class Tasks extends Component {
         } = this.props;
 
         return (
-            <div className={'tasks'}>
+            <TasksForm>
                 <EditTaskForm
                     mode={FORM_NEW_MODE}
                     onSave={onTaskAdd}
                 />
-                <div className={'task-list'}>
+                <TasksList>
                     {(tasks || []).map((task, key) => (
                         <Task
                             key={key}
@@ -28,8 +43,8 @@ class Tasks extends Component {
                             onDelete={() => onTaskDelete(task)}
                         />
                     ))}
-                </div>
-            </div>
+                </TasksList>
+            </TasksForm>
         );
     }
 }

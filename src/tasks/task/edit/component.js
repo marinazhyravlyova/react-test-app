@@ -1,8 +1,83 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import style from './style';
+import styled from 'styled-components';
 import { FORM_EDIT_MODE } from './index';
-import ViewTaskForm from "../view/component";
+import { Button, defaultBorderColor } from '../../../style';
+
+export const inputBorderColor = 'rgba(0, 0, 0, 0.2)';
+
+export const TaskForm = styled.div`
+    display: grid;
+    grid-template-areas: "OneLineProperties ActionPanel"
+                         "Description       ActionPanel";
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    border: 1px solid ${defaultBorderColor};
+    padding: 5px;
+    border-radius: 3px;
+`;
+
+export const AddButton = styled(Button)`
+    border-color: #3096DF;
+    :hover {
+       background-color: #3096DF;  
+    }
+`;
+
+export const RemoveButton = styled(Button)`
+    border-color: #DF3056;
+    :hover {
+       background-color: #DF3056;
+    }
+`;
+
+export const CancelButton = styled(Button)``;
+
+export const Input = styled.input`
+    outline: none;
+    border: 1px solid ${inputBorderColor};
+    padding: 1px 1px 1px 10px;
+    font-size: 18px;
+    padding-left: 10px;
+    height: 30px;
+`;
+
+export const DescriptionTextArea = styled.textarea`
+    outline: none;
+    grid-area: Description;
+    border: 1px solid ${inputBorderColor};
+    padding: 1px 1px 1px 10px;
+    min-height: 50px;
+    font-size: 18px;
+    padding-left: 10px;
+`;
+
+export const Property = ({ title, value, onChange }) => (
+    <Input placeholder={title} value={value} onChange={onChange}/>
+);
+
+export const Description = ({ title, value, onChange }) => (
+    <DescriptionTextArea placeholder={title} value={value} onChange={onChange}/>
+);
+
+export const ActionPanel = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-area: ActionPanel;
+    border-left: 1px solid ${defaultBorderColor};
+    padding-left: 5px;
+`;
+
+export const OneLineProperties = styled.div`
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 10px;
+    grid-area: OneLineProperties;
+`;
 
 export const initialState = {
     title: '',
@@ -30,7 +105,7 @@ class NewTaskForm extends Component {
     };
 
     render() {
-        const { mode = 'edit', onDelete } = this.props;
+        const { mode = FORM_EDIT_MODE, onDelete, onCancel } = this.props;
         const {
             title,
             description,
@@ -39,28 +114,19 @@ class NewTaskForm extends Component {
         } = this.state;
 
         return (
-            <div className={'new-task-form'}>
-                <div className={'task'}>
-                    <div className={'task-prop-item assigner'}>
-                        <div className={'title'}>Assigner</div>
-                        <input value={assigner} onChange={(e) => this.onPropChange(e, 'assigner')}/>
-                    </div>
-                    <div className={'task-prop-item title'}>
-                        <div className={'title'}>Title</div>
-                        <input value={title} onChange={(e) => this.onPropChange(e, 'title')}/>
-                    </div>
-                    <div className={'task-prop-item deadline'}>
-                        <div className={'title'}>Deadline</div>
-                        <input value={deadline} onChange={(e) => this.onPropChange(e, 'deadline')}/>
-                    </div>
-                    <div className={'task-prop-item deadline'}>
-                        <div className={'title'}>Description</div>
-                        <input value={description} onChange={(e) => this.onPropChange(e, 'description')}/>
-                    </div>
-                    <button className={'action-item'} onClick={this.onSave}>{ mode === FORM_EDIT_MODE ? 'Save' : 'Add' }</button>
-                    { mode === FORM_EDIT_MODE ? <button className={'action-item'} onClick={onDelete}>Delete</button> : null }
-                </div>
-            </div>
+            <TaskForm>
+                <OneLineProperties>
+                    <Property title={'Assigner'} value={assigner} onChange={(e) => this.onPropChange(e, 'assigner')}/>
+                    <Property title={'Title'} value={title} onChange={(e) => this.onPropChange(e, 'title')}/>
+                    <Property title={'Deadline'} value={deadline} onChange={(e) => this.onPropChange(e, 'deadline')}/>
+                </OneLineProperties>
+                <Description title={'Description'} value={description} onChange={(e) => this.onPropChange(e, 'description')}/>
+                <ActionPanel>
+                    <AddButton onClick={this.onSave}>{ mode === FORM_EDIT_MODE ? 'Save' : 'Add' }</AddButton>
+                    { mode === FORM_EDIT_MODE ? <RemoveButton onClick={onDelete}>Delete</RemoveButton> : null }
+                    { mode === FORM_EDIT_MODE ? <CancelButton onClick={onCancel}>Cancel</CancelButton> : null }
+                </ActionPanel>
+            </TaskForm>
         );
     }
 }
@@ -69,6 +135,7 @@ NewTaskForm.propTypes = {
     mode: PropTypes.string,
     task: PropTypes.object,
     onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     onDelete: PropTypes.func,
 };
 

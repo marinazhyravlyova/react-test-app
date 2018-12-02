@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import style from './style';
 import { component as EditTaskForm } from './edit';
 import { component as ViewTaskForm } from './view';
 
@@ -18,6 +17,8 @@ class Task extends Component {
         this.props.onEdit(task);
     };
 
+    onCancel = () => this.stopEditMode();
+
     render() {
         const { task, onDelete } = this.props;
         const { isEditMode } = this.state;
@@ -27,6 +28,7 @@ class Task extends Component {
                 <EditTaskForm
                     task={task}
                     onSave={this.onSave}
+                    onCancel={this.onCancel}
                     onDelete={onDelete}
                 />
             );
