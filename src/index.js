@@ -5,18 +5,18 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 
 import App from './App';
-import reducers from './reducers';
+import appReducer from './reducer';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
 const store = compose(
-  applyMiddleware(createLogger())
-)(createStore)(reducers);
+    applyMiddleware(createLogger())
+)(createStore)(appReducer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App/>
   </Provider>,
   document.getElementById('root')
 );
